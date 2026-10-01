@@ -1,14 +1,18 @@
 package com.example.przeliczniktemperatur;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -24,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
                 radioButtonCd,radioButtonKd,radioButtonFd;
     Button button;
     TextView textViewWynik;
+    double temperatura;
+    char znakTemperaturyZ;
+    char getZnakTemperaturyNa;
+    int zmiennaPomocnicza;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +49,59 @@ public class MainActivity extends AppCompatActivity {
         radioButtonFd = findViewById(R.id.radioButton6);
         button = findViewById(R.id.button);
         textViewWynik = findViewById(R.id.textView4);
+        editText.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void afterTextChanged(Editable editable) {
 
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    temperatura = Double.parseDouble(charSequence.toString());
+                    textViewWynik.setText(temperatura +"");
+                    }
+                }
+        );
+        radioGroup1.setOnCheckedChangeListener(
+                new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(@NonNull RadioGroup radioGroup, int i) {
+                       zmiennaPomocnicza = i;
+                       if(i == R.id.radioButton){
+                           znakTemperaturyZ = 'C';
+                       }else{
+                           if(i == R.id.radioButton2){
+                               znakTemperaturyZ = 'K';
+                           }else{
+                               znakTemperaturyZ = 'F';
+                           }
+                       }
+                    }
+                }
+        );
+        radioGroup2.setOnCheckedChangeListener(
+                new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(@NonNull RadioGroup radioGroup, int i) {
+
+                        if(i == R.id.radioButton4){
+                            znakTemperaturyZ = 'C';
+                        }else {
+                            if (i == R.id.radioButton5) {
+                                znakTemperaturyZ = 'K';
+                            } else {
+                                znakTemperaturyZ = 'F';
+                            }
+                        }
+                    }
+                }
+        );
         button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
